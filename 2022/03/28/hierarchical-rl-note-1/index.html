@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <link rel="shortcut icon" href="/images/avatar.png" type="image/x-icon" />
+    <title>Shuqi Ke</title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/css/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/css/solid.min.css">
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+
+    <div class="body-container">
+        <div class="header-wrapper"><header>
+    <div class="header-container">
+        <div class="header-menu-list">
+            <ul>
+            
+                <li>
+                    <a href="/">Home</a>
+                </li>
+            
+                <li>
+                    <a href="/about">About</a>
+                </li>
+            
+            </ul>
+        </div>
+    </div>
+</header>
+</div>
+        <div class="main-wrapper"><main>
+    <div class="main-container">
+        <div class="post-details">
+            
+            <div class="post-title">
+                <h1>hierarchical-rl-note-1</h1>
+            </div>
+            <div class="post-meta">
+                <i class="fa-solid fa-clock"></i>&nbsp;<span class="post-date">2022/03/28</span>
+            </div>
+            
+            <div class="post-content">
+                <p>Motivation: There are tasks with hierarchical structures. For example, people can decompose driving into three levels: 1) choose a destination; 2) turn&#x2F;overtake&#x2F;stop&#x2F;park; 3) break&#x2F;gas&#x2F;steering. Look at this figure:</p>
+<iframe src="/javascript/hierarchical-rl-note-1/tree-polyline.html" width="100%" height="300" style="border:1px solid grey;">
+</iframe>
+
+<p>To model these tasks, we need the notion of semi-Markov processes.</p>
+<h1 id="Semi-Markov-process-SMP"><a href="#Semi-Markov-process-SMP" class="headerlink" title="Semi-Markov process (SMP)"></a>Semi-Markov process (SMP)</h1><p>SMP was introduced in the context of continuous-time Markov processes.</p>
+<blockquote>
+<p><strong>Def 1</strong>[Semi-Markov process]:</p>
+<ul>
+<li><p>Set of states: S</p>
+</li>
+<li><p>Transition dynamics: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false">(</mo><msup><mi>s</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo separator="true">,</mo><mi>τ</mi><mi mathvariant="normal">∣</mi><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><mi>P</mi><mo stretchy="false">(</mo><msup><mi>s</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mi mathvariant="normal">∣</mi><mi>s</mi><mo stretchy="false">)</mo><mi>P</mi><mo stretchy="false">(</mo><mi>τ</mi><mi mathvariant="normal">∣</mi><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">P(s&#x27;,\tau|s)=P(s&#x27;|s)P(\tau|s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.001892em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">s</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span><span class="mord">∣</span><span class="mord mathnormal">s</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.001892em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">s</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mord">∣</span><span class="mord mathnormal">s</span><span class="mclose">)</span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span><span class="mord">∣</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span>. <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi></mrow><annotation encoding="application/x-tex">\tau</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span></span></span></span> indicates the time to transition.</p>
+</li>
+</ul>
+</blockquote>
+<p>This process has two components: “jumping” state transition and “flowing” time dimension. The process “semi-Markovian” in the sense that only a semi part, the state transition, is Markovian.</p>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><ol>
+<li><strong>Book</strong>: <a target="_blank" rel="noopener" href="https://onlinelibrary.wiley.com/doi/book/10.1002/9780470316887">Markov Decision Processes: Discrete Stochastic Dynamic Programming</a>. Sec. 11.1-11.3.</li>
+<li><strong>Paper</strong>: <a target="_blank" rel="noopener" href="https://papers.nips.cc/paper/1998/file/9597353e41e6957b5e7aa79214fcb256-Paper.pdf">Improved Switching among Temporally Abstract Actions</a>. NIPS.</li>
+<li><strong>Paper</strong>: <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1710.09767.pdf">Meta Learning Shared Hierarchies</a>. ICLR.</li>
+<li><strong>Blog post</strong>: <a target="_blank" rel="noopener" href="https://towardsdatascience.com/hierarchical-reinforcement-learning-a2cca9b76097">Make smarter agents with Hierarchical Reinforcement Learning</a></li>
+<li><strong>Blog post</strong>: <a target="_blank" rel="noopener" href="https://hunterx.xyz/use-mindmap-in-hexo.html">Using mind-map in hexo</a></li>
+<li><strong>Blog post</strong>: <a target="_blank" rel="noopener" href="https://leimao.github.io/blog/Hexo-Blog-Add-JavaScript/">Add JavaScript to Hexo Blog</a></li>
+<li><strong>Open course</strong>: <a target="_blank" rel="noopener" href="https://cs.uwaterloo.ca/~ppoupart/teaching/cs885-spring18/schedule.html">CS885 Spring 2018 - Reinforcement Learning</a>. 15c, 16a, 16b.</li>
+</ol>
+<script type="text&#x2F;javascript" src="https://unpkg.com/kity@2.0.4/dist/kity.min.js"></script><script type="text&#x2F;javascript" src="https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text&#x2F;javascript" src="https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text&#x2F;css" href="https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css">
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="https://utteranc.es/client.js"
+    repo="owner/repo"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+</script>
+
+
+</div>
+        <div class="footer-wrapper"><footer>
+    <div class="footer-container">
+        <div class="footer-meta">
+            
+                <div class="footer-meta-copyright">
+                    &copy; 2022 Shuqi Ke.
+                </div>
+            
+            
+                <div class="footer-meta-licenese">
+                    Licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC-BY-NC-SA 4.0</a>
+                </div>
+            
+            
+                <div class="footer-meta-rss">
+                    <a href="/atom.xml"><i class="fa-solid fa-rss"></i></a>
+                </div>
+            
+        </div>
+    </div>
+</footer>
+</div>
+    </div>
+</body>
+</html>

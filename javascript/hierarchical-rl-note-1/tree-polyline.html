@@ -1,0 +1,132 @@
+<!--
+    THIS EXAMPLE WAS DOWNLOADED FROM https://echarts.apache.org/examples/en/editor.html?c=tree-polyline
+-->
+<!DOCTYPE html>
+<html style="height: 100%">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body style="height: 100%; margin: 0">
+        <div id="container" style="height: 100%"></div>
+
+        
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.2/dist/echarts.min.js"></script>
+        <!-- Uncomment this line if you want to dataTool extension
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.2/dist/extension/dataTool.min.js"></script>
+        -->
+        <!-- Uncomment this line if you want to use gl extension
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl@2/dist/echarts-gl.min.js"></script>
+        -->
+        <!-- Uncomment this line if you want to echarts-stat extension
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script>
+        -->
+        <!-- Uncomment this line if you want to use map
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.2/map/js/china.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.2/map/js/world.js"></script>
+        -->
+        <!-- Uncomment these two lines if you want to use bmap extension
+        <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=<Your Key Here>"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@{{version}}/dist/extension/bmap.min.js"></script>
+        -->
+
+        <script type="text/javascript">
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+var app = {};
+
+var option;
+
+
+
+const data = {
+  name: 'Destination',
+  children: [
+    {
+      name: 'Reach A',
+      children: [
+        { name: 'Overtake', value: 1616 },
+        { name: 'Overtake', value: 1027 },
+        { name: 'Overtake', value: 3891 },
+        { name: 'Turn', value: 2893 },
+        { name: 'Overtake', value: 5103 },
+        {
+          name: 'Overtake',
+          children: [
+            { name: 'Gas', value: 593 },
+            { name: 'Break', value: 330 },
+            { name: 'Gas', value: 287 },
+            { name: 'Steering', value: 460 },
+            { name: 'Gas', value: 603 },
+            { name: 'Gas', value: 625 },
+            { name: 'Steering', value: 460 }
+          ]
+        },
+        { name: 'Turn', value: 843 },
+        { name: 'Overtake', value: 1124 },
+        { name: 'Overtake', value: 1876 }
+      ]
+    },
+    {
+      name: 'Reach B',
+      children: [
+        { name: 'Overtake', value: 2105 },
+        { name: 'Overtake', value: 1316 },
+        { name: 'Turn', value: 3151 },
+        { name: 'Overtake', value: 3770 }
+      ]
+    }
+  ]
+};
+option = {
+  tooltip: {
+    trigger: 'item',
+    triggerOn: 'mousemove'
+  },
+  series: [
+    {
+      type: 'tree',
+      id: 0,
+      name: 'tree1',
+      data: [data],
+      top: '10%',
+      left: '8%',
+      bottom: '22%',
+      right: '20%',
+      symbolSize: 7,
+      edgeShape: 'polyline',
+      edgeForkPosition: '63%',
+      initialTreeDepth: 3,
+      lineStyle: {
+        width: 2
+      },
+      label: {
+        backgroundColor: '#fff',
+        position: 'left',
+        verticalAlign: 'middle',
+        align: 'right'
+      },
+      leaves: {
+        label: {
+          position: 'right',
+          verticalAlign: 'middle',
+          align: 'left'
+        }
+      },
+      emphasis: {
+        focus: 'descendant'
+      },
+      expandAndCollapse: true,
+      animationDuration: 550,
+      animationDurationUpdate: 750
+    }
+  ]
+};
+
+if (option && typeof option === 'object') {
+    myChart.setOption(option);
+}
+
+        </script>
+    </body>
+</html>
+    
