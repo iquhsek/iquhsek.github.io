@@ -57,14 +57,14 @@
             </div>
             
             <div class="post-content">
-                <p>Motivation: There are tasks with hierarchical structures. For example, people can decompose driving into three levels: 1) choose a destination; 2) turn&#x2F;overtake&#x2F;stop&#x2F;park; 3) break&#x2F;gas&#x2F;steering. Look at this figure:</p>
+                <p>Why do we need hierarchical algorithms?</p>
+<p>Motivation: There are tasks with hierarchical structures. For example, people can decompose driving into three levels: 1) choose a destination; 2) turn&#x2F;overtake&#x2F;stop&#x2F;park; 3) break&#x2F;gas&#x2F;steering. Look at this figure:</p>
 <iframe src="/javascript/hierarchical-rl-note-1/tree-polyline.html" width="100%" height="300" style="border:1px solid grey;">
 </iframe>
 
-<p>To model these tasks, we need the notion of semi-Markov processes.</p>
-<h1 id="Semi-Markov-process-SMP"><a href="#Semi-Markov-process-SMP" class="headerlink" title="Semi-Markov process (SMP)"></a>Semi-Markov process (SMP)</h1><p>SMP was introduced in the context of continuous-time Markov processes.</p>
+<p>To model these tasks, we need the notion of semi-Markov processes. It was introduced in the context of continuous-time Markov processes.</p>
 <blockquote>
-<p><strong>Def 1</strong>[Semi-Markov process]:</p>
+<p><strong>Essential 1</strong>[Semi-Markov process]:</p>
 <ul>
 <li><p>Set of states: S</p>
 </li>
@@ -73,6 +73,29 @@
 </ul>
 </blockquote>
 <p>This process has two components: “jumping” state transition and “flowing” time dimension. The process “semi-Markovian” in the sense that only a semi part, the state transition, is Markovian.</p>
+<blockquote>
+<p><strong>Essential 2</strong>[Semi-Markov decision process]:</p>
+<ul>
+<li><p>Set of states, actions: S, A</p>
+</li>
+<li><p>Transition: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false">(</mo><msup><mi>s</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo separator="true">,</mo><mi>τ</mi><mi mathvariant="normal">∣</mi><mi>s</mi><mo separator="true">,</mo><mi>a</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">P(s&#x27;,\tau|s,a)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.001892em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">s</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span><span class="mord">∣</span><span class="mord mathnormal">s</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">a</span><span class="mclose">)</span></span></span></span></p>
+</li>
+<li><p>Reward: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo stretchy="false">(</mo><mi>s</mi><mo separator="true">,</mo><mi>a</mi><mo stretchy="false">)</mo><mo>=</mo><mi>E</mi><mo stretchy="false">[</mo><mi>r</mi><mi mathvariant="normal">∣</mi><mi>s</mi><mo separator="true">,</mo><mi>a</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">R(s,a)=E[r|s,a]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">a</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord">∣</span><span class="mord mathnormal">s</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">a</span><span class="mclose">]</span></span></span></span></p>
+</li>
+<li><p>Discount factor: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>∈</mo><mo stretchy="false">[</mo><mn>0</mn><mo separator="true">,</mo><mn>1</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">\gamma\in[0,1]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7335400000000001em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mclose">]</span></span></span></span></p>
+</li>
+<li><p>Horizon:</p>
+<ul>
+<li><p>Finite horizon: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo>∈</mo><mi mathvariant="double-struck">N</mi></mrow><annotation encoding="application/x-tex">h\in\mathbb{N}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.73354em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">h</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68889em;vertical-align:0em;"></span><span class="mord"><span class="mord mathbb">N</span></span></span></span></span></p>
+</li>
+<li><p>Infinite horizon: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo>:</mo><mo>=</mo><mi mathvariant="normal">∞</mi></mrow><annotation encoding="application/x-tex">h:=\infty</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">h</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">:</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord">∞</span></span></span></span></p>
+</li>
+</ul>
+</li>
+<li><p>Goal: find optimal policy</p>
+</li>
+</ul>
+</blockquote>
 <h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><ol>
 <li><strong>Book</strong>: <a target="_blank" rel="noopener" href="https://onlinelibrary.wiley.com/doi/book/10.1002/9780470316887">Markov Decision Processes: Discrete Stochastic Dynamic Programming</a>. Sec. 11.1-11.3.</li>
 <li><strong>Paper</strong>: <a target="_blank" rel="noopener" href="https://papers.nips.cc/paper/1998/file/9597353e41e6957b5e7aa79214fcb256-Paper.pdf">Improved Switching among Temporally Abstract Actions</a>. NIPS.</li>
