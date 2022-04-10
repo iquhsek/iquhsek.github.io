@@ -393,6 +393,12 @@ Input: A starting point <span class="katex"><span class="katex-mathml"><math xml
 <img src="/2022/04/03/MC-SVRE-algorithm/overdamp-underdamp.png" class="" width="400" height="150">
 </div>
 
+<p>This transition from an overdamped system to an underdamped system fits the oscillation behavior of Nestrov’s scheme: the trajectory is smooth at first but it starts oscillating as the algorithm iterates more and more.</p>
+<div align="center">
+<img src="/2022/04/03/MC-SVRE-algorithm/nesterov-acc-osc-behavior-example.png" class="" width="480" height="180">
+</div>
+<div style="text-align: right"> [Su, et al. JMLR'16] </div>
+
 <h2 id="Multi-agent-problems"><a href="#Multi-agent-problems" class="headerlink" title="Multi-agent problems"></a>Multi-agent problems</h2><p>We are at “a dawn of multi-agent learning applications” (Daskalakis, 2022).</p>
 <p>“Minimization is to current ML what equilibrium computation is to future ML” (Daskalakis, 2022). In his <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=hkh23K3-EKw">talk</a>, Daskalakis illustrated a nice example, from the context of GAN, on how independent &amp; simultaneous gradient ascent&#x2F;descent dynamics fail (e.g. oscillates instead of converging) in multi-agent problem.</p>
 <div align="center">
